@@ -8,6 +8,7 @@ resource "azurerm_container_registry" "container_registry" {
   resource_group_name = azurerm_resource_group.resource_group.name
   location            = azurerm_resource_group.resource_group.location
   sku                 = "Basic"
+  admin_enabled       = false
 }
 
 resource "azurerm_service_plan" "appservice_plan" {
@@ -27,8 +28,8 @@ resource "azurerm_linux_web_app" "linux_webapp" {
   site_config {
     container_registry_use_managed_identity = true
     application_stack {
-        docker_registry_url = "https://${azurerm_container_registry.container_registry.login_server}"
-        docker_image_name = "nginx:1.0.0"
+      docker_registry_url = "https://${azurerm_container_registry.container_registry.login_server}"
+      docker_image_name   = "nginx:1.0.0"
     }
   }
   identity {
